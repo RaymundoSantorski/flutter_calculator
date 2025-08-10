@@ -32,6 +32,85 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              child: TextField(
+                decoration: InputDecoration(border: InputBorder.none),
+              ),
+            ),
+            Expanded(child: SizedBox()),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('7')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('8')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('9')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('+')),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('4')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('5')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('6')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('-')),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('1')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('2')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('3')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('*')),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('.')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('0')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('=')),
+                ),
+                Expanded(
+                  child: ElevatedButton(onPressed: () {}, child: Text('/')),
+                ),
+              ],
+            ),
+            SizedBox(height: 50),
+          ],
+        ),
+      ),
+    );
   }
 }
