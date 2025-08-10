@@ -30,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController _controller = TextEditingController(text: '');
+  final TextEditingController _controller = TextEditingController(text: '');
 
   void addValue(String value) {
     _controller.text = _controller.text + value;
@@ -53,13 +53,22 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('7')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('7'),
+                    child: Text('7'),
+                  ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('8')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('8'),
+                    child: Text('8'),
+                  ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('9')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('9'),
+                    child: Text('9'),
+                  ),
                 ),
                 Expanded(
                   child: ElevatedButton(onPressed: () {}, child: Text('+')),
@@ -69,13 +78,22 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('4')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('4'),
+                    child: Text('4'),
+                  ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('5')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('5'),
+                    child: Text('5'),
+                  ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('6')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('6'),
+                    child: Text('6'),
+                  ),
                 ),
                 Expanded(
                   child: ElevatedButton(onPressed: () {}, child: Text('-')),
@@ -85,13 +103,22 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('1')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('1'),
+                    child: Text('1'),
+                  ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('2')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('2'),
+                    child: Text('2'),
+                  ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('3')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('3'),
+                    child: Text('3'),
+                  ),
                 ),
                 Expanded(
                   child: ElevatedButton(onPressed: () {}, child: Text('*')),
@@ -101,10 +128,16 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('.')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('.'),
+                    child: Text('.'),
+                  ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('0')),
+                  child: ElevatedButton(
+                    onPressed: () => addValue('0'),
+                    child: Text('0'),
+                  ),
                 ),
                 Expanded(
                   child: ElevatedButton(onPressed: () {}, child: Text('=')),
