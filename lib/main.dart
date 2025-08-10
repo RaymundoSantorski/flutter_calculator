@@ -31,10 +31,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _controller = TextEditingController(text: '');
+  List<double Function()> values = [];
+  List<double Function()> ops = [];
 
   void addValue(String value) {
     _controller.text = _controller.text + value;
   }
+
+  void operate(double Function(double, double) op) {}
 
   double mult(double b, double a) {
     return a * b;
