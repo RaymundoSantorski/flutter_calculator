@@ -32,6 +32,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _controller = TextEditingController(text: '');
 
+  void addValue(String value) {
+    _controller.text = _controller.text + value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
