@@ -30,6 +30,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  TextEditingController _controller = TextEditingController(text: '');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Card(
               child: TextField(
                 decoration: InputDecoration(border: InputBorder.none),
+                controller: _controller,
               ),
             ),
             Expanded(child: SizedBox()),
