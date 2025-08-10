@@ -36,6 +36,22 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller.text = _controller.text + value;
   }
 
+  double mult(double b, double a) {
+    return a * b;
+  }
+
+  double div(double b, double a) {
+    return a / b;
+  }
+
+  double add(double b, double a) {
+    return a + b;
+  }
+
+  double sus(double b, double a) {
+    return a - b;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
