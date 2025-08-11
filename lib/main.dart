@@ -37,46 +37,12 @@ class _MyHomePageState extends State<MyHomePage> {
   List<double> values = [];
   List<double Function(double, double)> ops = [];
 
+  SnackBar snackBar(String message) {
+    return SnackBar(content: Text(message), backgroundColor: Colors.redAccent);
+  }
+
   void addValue(String value) {
     _controller.text = _controller.text + value;
-  }
-
-  void operate(double Function(double, double) op) {
-    setState(() {
-      double? value = double.tryParse(_controller.text);
-      if (value == null) return;
-      values.add(value);
-      int currLevel = (op == mult || op == div) ? 2 : 1;
-      if (ops.isEmpty) {
-        ops.add(op);
-      } else {
-        int prevLevel = (ops.last == mult || ops.last == div) ? 2 : 1;
-        if (prevLevel >= currLevel) {
-          double newValue = ops.removeLast()(
-            values.removeLast(),
-            values.removeLast(),
-          );
-          ops.add(op);
-          values.add(newValue);
-        } else {
-          ops.add(op);
-        }
-      }
-      _controller.text = '';
-    });
-  }
-
-  void resolve() {
-    setState(() {
-      double? value = double.tryParse(_controller.text);
-      if (value == null) return;
-      values.add(value);
-      for (int i = (ops.length - 1); i >= 0; i--) {
-        double Function(double, double) op = ops.removeLast();
-        values.add(op(values.removeLast(), values.removeLast()));
-      }
-      _controller.text = '${values.removeLast()}';
-    });
   }
 
   double mult(double b, double a) {
@@ -84,6 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   double div(double b, double a) {
+    if (b == 0) {
+      throw ErrorDescription('You are trying to divide by zero');
+    }
     return a / b;
   }
 
@@ -97,6 +66,52 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    void resolve() {
+      try {
+        setState(() {
+          double? value = double.tryParse(_controller.text);
+          if (value == null) return;
+          values.add(value);
+          for (int i = (ops.length - 1); i >= 0; i--) {
+            double Function(double, double) op = ops.removeLast();
+            values.add(op(values.removeLast(), values.removeLast()));
+          }
+          _controller.text = '${values.removeLast()}';
+        });
+      } catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(snackBar(error.toString()));
+      }
+    }
+
+    void operate(double Function(double, double) op) {
+      try {
+        setState(() {
+          double? value = double.tryParse(_controller.text);
+          if (value == null) return;
+          values.add(value);
+          int currLevel = (op == mult || op == div) ? 2 : 1;
+          if (ops.isEmpty) {
+            ops.add(op);
+          } else {
+            int prevLevel = (ops.last == mult || ops.last == div) ? 2 : 1;
+            if (prevLevel >= currLevel) {
+              double newValue = ops.removeLast()(
+                values.removeLast(),
+                values.removeLast(),
+              );
+              ops.add(op);
+              values.add(newValue);
+            } else {
+              ops.add(op);
+            }
+          }
+          _controller.text = '';
+        });
+      } catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(snackBar(error.toString()));
+      }
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Column(
