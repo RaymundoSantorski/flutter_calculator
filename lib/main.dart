@@ -39,7 +39,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void operate(double Function(double, double) op) {
-    _controller.text = '';
     setState(() {
       double? value = double.tryParse(_controller.text);
       if (value == null) return;
@@ -50,15 +49,26 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         int prevLevel = (ops.last == mult || ops.last == div) ? 2 : 1;
         if (prevLevel >= currLevel) {
-          double newValue = op(
-            values.removeAt(values.length - 1),
-            values.elementAt(values.length - 1),
-          );
+          double newValue = op(values.removeLast(), values.removeLast());
           values.add(newValue);
         } else {
           ops.add(op);
         }
       }
+      _controller.text = '';
+    });
+  }
+
+  void resolve() {
+    setState(() {
+      double? value = double.tryParse(_controller.text);
+      if (value == null) return;
+      values.add(value);
+      for (int i = (ops.length - 1); i >= 0; i--) {
+        double Function(double, double) op = ops.removeLast();
+        values.add(op(values.removeLast(), values.removeLast()));
+      }
+      _controller.text = '${values[0]}';
     });
   }
 
@@ -191,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('=')),
+                  child: ElevatedButton(onPressed: resolve, child: Text('=')),
                 ),
                 Expanded(
                   child: ElevatedButton(
