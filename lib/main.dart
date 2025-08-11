@@ -31,14 +31,36 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _controller = TextEditingController(text: '');
-  List<double Function()> values = [];
-  List<double Function()> ops = [];
+  List<double> values = [];
+  List<double Function(double, double)> ops = [];
 
   void addValue(String value) {
     _controller.text = _controller.text + value;
   }
 
-  void operate(double Function(double, double) op) {}
+  void operate(double Function(double, double) op) {
+    _controller.text = '';
+    setState(() {
+      double? value = double.tryParse(_controller.text);
+      if (value == null) return;
+      values.add(value);
+      int currLevel = (op == mult || op == div) ? 2 : 1;
+      if (ops.isEmpty) {
+        ops.add(op);
+      } else {
+        int prevLevel = (ops.last == mult || ops.last == div) ? 2 : 1;
+        if (prevLevel >= currLevel) {
+          double newValue = op(
+            values.removeAt(values.length - 1),
+            values.elementAt(values.length - 1),
+          );
+          values.add(newValue);
+        } else {
+          ops.add(op);
+        }
+      }
+    });
+  }
 
   double mult(double b, double a) {
     return a * b;
@@ -91,7 +113,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('+')),
+                  child: ElevatedButton(
+                    onPressed: () => operate(add),
+                    child: Text('+'),
+                  ),
                 ),
               ],
             ),
@@ -116,7 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('-')),
+                  child: ElevatedButton(
+                    onPressed: () => operate(sus),
+                    child: Text('-'),
+                  ),
                 ),
               ],
             ),
@@ -141,7 +169,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('*')),
+                  child: ElevatedButton(
+                    onPressed: () => operate(mult),
+                    child: Text('*'),
+                  ),
                 ),
               ],
             ),
@@ -163,7 +194,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ElevatedButton(onPressed: () {}, child: Text('=')),
                 ),
                 Expanded(
-                  child: ElevatedButton(onPressed: () {}, child: Text('/')),
+                  child: ElevatedButton(
+                    onPressed: () => operate(div),
+                    child: Text('/'),
+                  ),
                 ),
               ],
             ),
