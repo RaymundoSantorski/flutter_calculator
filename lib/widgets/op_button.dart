@@ -18,6 +18,7 @@ class OpButton extends StatelessWidget {
         aspectRatio: 1,
         child: ElevatedButton(
           style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(Colors.orange),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
@@ -25,7 +26,14 @@ class OpButton extends StatelessWidget {
           onPressed: () {
             onPressed(operation);
           },
-          child: Text(label),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+              fontSize: 30,
+            ),
+          ),
         ),
       ),
     );

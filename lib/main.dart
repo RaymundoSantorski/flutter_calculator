@@ -64,9 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       _controller.text = '';
     });
-    print('----Operate----');
-    print(values);
-    print(ops);
   }
 
   void resolve() {
@@ -80,9 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       _controller.text = '${values.removeLast()}';
     });
-    print('-----Resolve------');
-    print(values);
-    print(ops);
   }
 
   double mult(double b, double a) {
@@ -108,13 +102,99 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Card(
-              child: TextField(
-                decoration: InputDecoration(border: InputBorder.none),
-                controller: _controller,
-              ),
-            ),
             Expanded(child: SizedBox()),
+            TextField(
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              decoration: InputDecoration(border: InputBorder.none),
+              controller: _controller,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                        Colors.deepOrangeAccent,
+                      ),
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      _controller.text = '';
+                    },
+                    child: Text(
+                      'C',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(Colors.red),
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      _controller.text = '';
+                      setState(() {
+                        values = [];
+                        ops = [];
+                      });
+                    },
+                    child: Text(
+                      'AC',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(Colors.blueGrey),
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      _controller.text = _controller.text.substring(
+                        0,
+                        _controller.text.length - 1,
+                      );
+                    },
+                    child: Text(
+                      'DEL',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Row(
               children: [
                 NumButton(onPressed: addValue, value: '7'),

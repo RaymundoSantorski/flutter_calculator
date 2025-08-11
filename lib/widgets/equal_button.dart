@@ -16,7 +16,14 @@ class EqualButton extends StatelessWidget {
             ),
           ),
           onPressed: onPressed,
-          child: Text('='),
+          child: Text(
+            '=',
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              color: Colors.black,
+              fontSize: 30,
+            ),
+          ),
         ),
       ),
     );
