@@ -12,7 +12,7 @@ class NumButton extends StatelessWidget {
         aspectRatio: 1,
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Colors.black),
+            backgroundColor: WidgetStatePropertyAll(Colors.blueGrey),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
