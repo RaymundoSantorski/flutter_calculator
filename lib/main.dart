@@ -1,3 +1,6 @@
+import 'package:calculator_practice/widgets/equal_button.dart';
+import 'package:calculator_practice/widgets/num_button.dart';
+import 'package:calculator_practice/widgets/op_button.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -49,7 +52,11 @@ class _MyHomePageState extends State<MyHomePage> {
       } else {
         int prevLevel = (ops.last == mult || ops.last == div) ? 2 : 1;
         if (prevLevel >= currLevel) {
-          double newValue = op(values.removeLast(), values.removeLast());
+          double newValue = ops.removeLast()(
+            values.removeLast(),
+            values.removeLast(),
+          );
+          ops.add(op);
           values.add(newValue);
         } else {
           ops.add(op);
@@ -57,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       _controller.text = '';
     });
+    print('----Operate----');
     print(values);
     print(ops);
   }
@@ -72,6 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       _controller.text = '${values.removeLast()}';
     });
+    print('-----Resolve------');
     print(values);
     print(ops);
   }
@@ -108,125 +117,34 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(child: SizedBox()),
             Row(
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('7'),
-                    child: Text('7'),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('8'),
-                    child: Text('8'),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('9'),
-                    child: Text('9'),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => operate(add),
-                    child: Text('+'),
-                  ),
-                ),
+                NumButton(onPressed: addValue, value: '7'),
+                NumButton(onPressed: addValue, value: '8'),
+                NumButton(onPressed: addValue, value: '9'),
+                OpButton(onPressed: operate, operation: add, label: '+'),
               ],
             ),
             Row(
               children: [
-                Expanded(
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
-                      onPressed: () => addValue('4'),
-                      child: Text('4'),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: AspectRatio(
-                    aspectRatio: 1,
-                    child: ElevatedButton(
-                      style: ButtonStyle(),
-                      onPressed: () => addValue('5'),
-                      child: Text('5'),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('6'),
-                    child: Text('6'),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => operate(sus),
-                    child: Text('-'),
-                  ),
-                ),
+                NumButton(onPressed: addValue, value: '4'),
+                NumButton(onPressed: addValue, value: '5'),
+                NumButton(onPressed: addValue, value: '6'),
+                OpButton(onPressed: operate, operation: sus, label: '-'),
               ],
             ),
             Row(
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('1'),
-                    child: Text('1'),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('2'),
-                    child: Text('2'),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('3'),
-                    child: Text('3'),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => operate(mult),
-                    child: Text('*'),
-                  ),
-                ),
+                NumButton(onPressed: addValue, value: '1'),
+                NumButton(onPressed: addValue, value: '2'),
+                NumButton(onPressed: addValue, value: '3'),
+                OpButton(onPressed: operate, operation: mult, label: '*'),
               ],
             ),
             Row(
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('.'),
-                    child: Text('.'),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('0'),
-                    child: Text('0'),
-                  ),
-                ),
-                Expanded(
-                  child: ElevatedButton(onPressed: resolve, child: Text('=')),
-                ),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => operate(div),
-                    child: Text('/'),
-                  ),
-                ),
+                NumButton(onPressed: addValue, value: '.'),
+                NumButton(onPressed: addValue, value: '0'),
+                EqualButton(onPressed: resolve),
+                OpButton(onPressed: operate, operation: div, label: '/'),
               ],
             ),
             SizedBox(height: 50),
