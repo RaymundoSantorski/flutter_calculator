@@ -57,6 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
       }
       _controller.text = '';
     });
+    print(values);
+    print(ops);
   }
 
   void resolve() {
@@ -68,8 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
         double Function(double, double) op = ops.removeLast();
         values.add(op(values.removeLast(), values.removeLast()));
       }
-      _controller.text = '${values[0]}';
+      _controller.text = '${values.removeLast()}';
     });
+    print(values);
+    print(ops);
   }
 
   double mult(double b, double a) {
@@ -133,15 +137,29 @@ class _MyHomePageState extends State<MyHomePage> {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('4'),
-                    child: Text('4'),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: ElevatedButton(
+                      style: ButtonStyle(
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                      onPressed: () => addValue('4'),
+                      child: Text('4'),
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: ElevatedButton(
-                    onPressed: () => addValue('5'),
-                    child: Text('5'),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: ElevatedButton(
+                      style: ButtonStyle(),
+                      onPressed: () => addValue('5'),
+                      child: Text('5'),
+                    ),
                   ),
                 ),
                 Expanded(
