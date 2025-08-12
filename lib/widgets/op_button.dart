@@ -7,7 +7,7 @@ class OpButton extends StatelessWidget {
     required this.operation,
     required this.label,
   });
-  final void Function(double Function(double, double)) onPressed;
+  final void Function(double Function(double, double), BuildContext) onPressed;
   final double Function(double, double) operation;
   final String label;
 
@@ -24,7 +24,7 @@ class OpButton extends StatelessWidget {
             ),
           ),
           onPressed: () {
-            onPressed(operation);
+            onPressed(operation, context);
           },
           child: Text(
             label,
