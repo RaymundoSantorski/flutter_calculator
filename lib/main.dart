@@ -1,3 +1,4 @@
+import 'package:calculator_practice/logic/calculator.dart';
 import 'package:calculator_practice/widgets/equal_button.dart';
 import 'package:calculator_practice/widgets/num_button.dart';
 import 'package:calculator_practice/widgets/op_button.dart';
@@ -9,8 +10,6 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -43,25 +42,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void addValue(String value) {
     _controller.text = _controller.text + value;
-  }
-
-  double mult(double b, double a) {
-    return a * b;
-  }
-
-  double div(double b, double a) {
-    if (b == 0) {
-      throw ErrorDescription('You are trying to divide by zero');
-    }
-    return a / b;
-  }
-
-  double add(double b, double a) {
-    return a + b;
-  }
-
-  double sus(double b, double a) {
-    return a - b;
   }
 
   @override
