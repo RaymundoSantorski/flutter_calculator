@@ -7,6 +7,34 @@ class HistoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar());
+    return Scaffold(
+      backgroundColor: scheme.primary,
+      appBar: AppBar(
+        title: Text(
+          'Calculator History',
+          style: TextStyle(
+            color: scheme.onPrimary,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: scheme.secondary,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.builder(
+          itemCount: history.length,
+          itemBuilder: (context, i) {
+            return Text(
+              '• ${history[i]}',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: scheme.onPrimary,
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
