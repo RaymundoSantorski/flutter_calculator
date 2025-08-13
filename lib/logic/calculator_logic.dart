@@ -61,11 +61,11 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
       setState(() {
         double? value = double.tryParse(controller.text);
         if (value == null) return;
-        values.add(value);
         if (op == percentage) {
           controller.text = '${percentage(value, 100)}';
           return;
         }
+        values.add(value);
         int currLevel = (op == mult || op == div) ? 2 : 1;
         if (ops.isEmpty) {
           ops.add(op);
