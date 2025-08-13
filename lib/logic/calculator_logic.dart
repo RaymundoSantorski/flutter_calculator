@@ -31,8 +31,17 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
     controller.text = '0';
   }
 
+  void validateHistory() {
+    if (currentOp != null && !history.isEmpty && !history.last.contains('=')) {
+      setState(() {
+        history.removeLast();
+      });
+    }
+  }
+
   void resetCalculatorState() {
     clearText();
+    validateHistory();
     setState(() {
       currentOp = null;
       values = [];
@@ -73,7 +82,6 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
         }
         controller.text = formatText(values.removeLast());
         history.add('${history.removeLast()} $value = ${controller.text}');
-        print(history);
         overwrite = true;
       });
     } catch (error) {

@@ -29,7 +29,7 @@ class HistoryScreen extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: scheme.secondary,
+                color: scheme.inversePrimary,
               ),
             );
           },
