@@ -35,6 +35,7 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
   }
 
   void addValue(String value) {
+    if (controller.text.contains('.') && value == '.') return;
     controller.text = controller.text + value;
   }
 
