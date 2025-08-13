@@ -1,0 +1,90 @@
+import 'package:calculator_practice/logic/methods.dart';
+import 'package:flutter/material.dart';
+
+class CalculatorLogic extends StatefulWidget {
+  const CalculatorLogic({super.key});
+
+  @override
+  State<CalculatorLogic> createState() => CalculatorLogicState();
+}
+
+class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
+  final TextEditingController controller = TextEditingController(text: '');
+  List<double> values = [];
+  List<double Function(double, double)> ops = [];
+
+  SnackBar snackBar(String message) {
+    return SnackBar(content: Text(message), backgroundColor: Colors.redAccent);
+  }
+
+  void clearText() {
+    controller.text = '';
+  }
+
+  void resetCalculatorState() {
+    clearText();
+    setState(() {
+      values = [];
+      ops = [];
+    });
+  }
+
+  void deleteChar() {
+    controller.text = controller.text.substring(0, controller.text.length - 1);
+  }
+
+  void addValue(String value) {
+    controller.text = controller.text + value;
+  }
+
+  void resolve(BuildContext context) {
+    try {
+      setState(() {
+        double? value = double.tryParse(controller.text);
+        if (value == null) return;
+        values.add(value);
+        for (int i = (ops.length - 1); i >= 0; i--) {
+          double Function(double, double) op = ops.removeLast();
+          values.add(op(values.removeLast(), values.removeLast()));
+        }
+        controller.text = '${values.removeLast()}';
+      });
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar(error.toString()));
+    }
+  }
+
+  void operate(double Function(double, double) op, BuildContext context) {
+    try {
+      setState(() {
+        double? value = double.tryParse(controller.text);
+        if (value == null) return;
+        values.add(value);
+        int currLevel = (op == mult || op == div) ? 2 : 1;
+        if (ops.isEmpty) {
+          ops.add(op);
+        } else {
+          int prevLevel = (ops.last == mult || ops.last == div) ? 2 : 1;
+          if (prevLevel >= currLevel) {
+            double newValue = ops.removeLast()(
+              values.removeLast(),
+              values.removeLast(),
+            );
+            ops.add(op);
+            values.add(newValue);
+          } else {
+            ops.add(op);
+          }
+        }
+        controller.text = '';
+      });
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar(error.toString()));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox();
+  }
+}
