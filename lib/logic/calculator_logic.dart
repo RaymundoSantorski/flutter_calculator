@@ -13,6 +13,7 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
   List<double> values = [];
   List<double Function(double, double)> ops = [];
   double Function(double, double)? currentOp;
+  bool overwrite = false;
 
   SnackBar snackBar(String message) {
     return SnackBar(content: Text(message), backgroundColor: Colors.redAccent);
@@ -38,6 +39,11 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
   }
 
   void addValue(String value) {
+    if (overwrite) {
+      controller.text = value;
+      overwrite = false;
+      return;
+    }
     if (controller.text.contains('.') && value == '.') return;
     if (controller.text == '0' && value != '.') {
       controller.text = value;
@@ -58,6 +64,7 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
           values.add(op(values.removeLast(), values.removeLast()));
         }
         controller.text = '${values.removeLast()}';
+        overwrite = true;
       });
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(snackBar(error.toString()));
@@ -92,6 +99,7 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
         }
         currentOp = op;
         controller.text = '${values.last}';
+        overwrite = true;
       });
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(snackBar(error.toString()));
