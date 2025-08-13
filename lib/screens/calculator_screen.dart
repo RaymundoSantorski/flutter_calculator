@@ -99,6 +99,7 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
                     onPressed: operate,
                     operation: percentage,
                     label: '%',
+                    active: false,
                   ),
                 ],
               ),
@@ -120,7 +121,12 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
                     value: '9',
                     color: scheme.secondary,
                   ),
-                  OpButton(onPressed: operate, operation: add, label: '+'),
+                  OpButton(
+                    onPressed: operate,
+                    operation: add,
+                    label: '+',
+                    active: currentOp == add,
+                  ),
                 ],
               ),
               Row(
@@ -141,7 +147,12 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
                     value: '6',
                     color: scheme.secondary,
                   ),
-                  OpButton(onPressed: operate, operation: sus, label: '-'),
+                  OpButton(
+                    onPressed: operate,
+                    operation: sus,
+                    label: '-',
+                    active: currentOp == sus,
+                  ),
                 ],
               ),
               Row(
@@ -162,7 +173,12 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
                     value: '3',
                     color: scheme.secondary,
                   ),
-                  OpButton(onPressed: operate, operation: mult, label: '*'),
+                  OpButton(
+                    onPressed: operate,
+                    operation: mult,
+                    label: '*',
+                    active: currentOp == mult,
+                  ),
                 ],
               ),
               Row(
@@ -179,7 +195,12 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
                     color: scheme.secondary,
                   ),
                   EqualButton(onPressed: resolve, color: scheme.onPrimary),
-                  OpButton(onPressed: operate, operation: div, label: '/'),
+                  OpButton(
+                    onPressed: operate,
+                    operation: div,
+                    label: '/',
+                    active: currentOp == div,
+                  ),
                 ],
               ),
               SizedBox(height: 50),
