@@ -34,6 +34,7 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
             onSecondary: Color.fromRGBO(255, 250, 255, 1),
             secondaryContainer: Color.fromRGBO(50, 50, 50, 1),
             tertiary: Color.fromRGBO(200, 200, 200, 0.8),
+            inversePrimary: Color.fromRGBO(200, 200, 200, 1),
           )
         : ColorScheme.light().copyWith(
             primary: Color.fromRGBO(235, 240, 240, 1),
@@ -41,6 +42,7 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
             onSecondary: Color.fromRGBO(20, 20, 20, 1),
             secondaryContainer: Color.fromRGBO(100, 110, 100, 1),
             tertiary: Color.fromRGBO(20, 20, 20, 1),
+            inversePrimary: Color.fromRGBO(100, 100, 100, 1),
           );
     return Scaffold(
       backgroundColor: scheme.primary,
@@ -64,6 +66,7 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          validateHistory();
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) =>
