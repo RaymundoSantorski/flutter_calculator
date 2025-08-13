@@ -14,6 +14,7 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
   List<double Function(double, double)> ops = [];
   double Function(double, double)? currentOp;
   bool overwrite = false;
+  List<String> history = [];
 
   SnackBar snackBar(String message) {
     return SnackBar(content: Text(message), backgroundColor: Colors.redAccent);
@@ -71,6 +72,8 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
           values.add(op(values.removeLast(), values.removeLast()));
         }
         controller.text = formatText(values.removeLast());
+        history.add('${history.removeLast()} $value = ${controller.text}');
+        print(history);
         overwrite = true;
       });
     } catch (error) {
@@ -88,6 +91,19 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
           return;
         }
         values.add(value);
+        String operand = op == add
+            ? '+'
+            : op == sus
+            ? '-'
+            : op == mult
+            ? '*'
+            : '/';
+        if (currentOp == null) {
+          history.add('$value $operand');
+        } else {
+          String curr = '${history.removeLast()} $value $operand';
+          history.add(curr);
+        }
         int currLevel = (op == mult || op == div) ? 2 : 1;
         if (ops.isEmpty) {
           ops.add(op);
