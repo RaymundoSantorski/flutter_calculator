@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
 class NumButton extends StatelessWidget {
-  const NumButton({super.key, required this.onPressed, required this.value});
+  const NumButton({
+    super.key,
+    required this.onPressed,
+    required this.value,
+    required this.color,
+  });
   final void Function(String) onPressed;
   final String value;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +18,7 @@ class NumButton extends StatelessWidget {
         aspectRatio: 1,
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Colors.blueGrey),
+            backgroundColor: WidgetStatePropertyAll(color),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
