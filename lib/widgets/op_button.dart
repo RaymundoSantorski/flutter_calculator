@@ -6,10 +6,12 @@ class OpButton extends StatelessWidget {
     required this.onPressed,
     required this.operation,
     required this.label,
+    required this.active,
   });
   final void Function(double Function(double, double), BuildContext) onPressed;
   final double Function(double, double) operation;
   final String label;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,9 @@ class OpButton extends StatelessWidget {
         aspectRatio: 1,
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: WidgetStatePropertyAll(Colors.orange),
+            backgroundColor: WidgetStatePropertyAll(
+              active ? Colors.amber : Colors.orange,
+            ),
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),

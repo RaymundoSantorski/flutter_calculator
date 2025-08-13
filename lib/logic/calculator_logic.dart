@@ -12,30 +12,37 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
   final TextEditingController controller = TextEditingController(text: '');
   List<double> values = [];
   List<double Function(double, double)> ops = [];
+  double Function(double, double)? currentOp;
 
   SnackBar snackBar(String message) {
     return SnackBar(content: Text(message), backgroundColor: Colors.redAccent);
   }
 
   void clearText() {
-    controller.text = '';
+    controller.text = '0';
   }
 
   void resetCalculatorState() {
     clearText();
     setState(() {
+      currentOp = null;
       values = [];
       ops = [];
     });
   }
 
   void deleteChar() {
-    if (controller.text.isEmpty) return;
+    if (controller.text.isEmpty || controller.text == '0') return;
     controller.text = controller.text.substring(0, controller.text.length - 1);
+    if (controller.text.isEmpty) controller.text = '0';
   }
 
   void addValue(String value) {
     if (controller.text.contains('.') && value == '.') return;
+    if (controller.text == '0' && value != '.') {
+      controller.text = value;
+      return;
+    }
     controller.text = controller.text + value;
   }
 
@@ -44,6 +51,7 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
       setState(() {
         double? value = double.tryParse(controller.text);
         if (value == null) return;
+        currentOp = null;
         values.add(value);
         for (int i = (ops.length - 1); i >= 0; i--) {
           double Function(double, double) op = ops.removeLast();
@@ -61,6 +69,10 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
       setState(() {
         double? value = double.tryParse(controller.text);
         if (value == null) return;
+        if (op == percentage) {
+          controller.text = '${percentage(value, 100)}';
+          return;
+        }
         values.add(value);
         int currLevel = (op == mult || op == div) ? 2 : 1;
         if (ops.isEmpty) {
@@ -78,7 +90,8 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
             ops.add(op);
           }
         }
-        controller.text = '';
+        currentOp = op;
+        controller.text = '${values.last}';
       });
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(snackBar(error.toString()));

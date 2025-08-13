@@ -18,3 +18,7 @@ double add(double b, double a) {
 double sus(double b, double a) {
   return a - b;
 }
+
+double percentage(double a, double b) {
+  return a / b;
+}

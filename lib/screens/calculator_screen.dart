@@ -30,12 +30,12 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
             primary: Color.fromRGBO(20, 20, 20, 1),
             secondary: Color.fromRGBO(50, 50, 50, 1),
             onPrimary: Color.fromRGBO(250, 250, 250, 1),
+            onSecondary: Color.fromRGBO(255, 250, 255, 1),
             secondaryContainer: Color.fromRGBO(50, 50, 50, 1),
           )
         : ColorScheme.light().copyWith(
             primary: Color.fromRGBO(235, 240, 240, 1),
             secondary: Color.fromRGBO(150, 150, 180, 1),
-            // onPrimary: Color.fromRGBO(20, 20, 20, 1),
             onSecondary: Color.fromRGBO(20, 20, 20, 1),
             secondaryContainer: Color.fromRGBO(100, 110, 100, 1),
           );
@@ -60,123 +60,152 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
         ],
       ),
       body: SafeArea(
-        child: Column(
-          spacing: spacing,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(child: SizedBox()),
-            TextField(
-              textAlign: TextAlign.end,
-              style: TextStyle(
-                color: scheme.onSecondary,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: EdgeInsetsGeometry.all(5),
+          child: Column(
+            spacing: spacing,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(child: SizedBox()),
+              TextField(
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  color: scheme.onSecondary,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                ),
+                decoration: InputDecoration(border: InputBorder.none),
+                controller: controller,
               ),
-              decoration: InputDecoration(border: InputBorder.none),
-              controller: controller,
-            ),
-            Row(
-              spacing: spacing,
-              children: [
-                DelButton(
-                  onPressed: clearText,
-                  backgroundColor: Colors.redAccent,
-                  label: 'C',
-                ),
-                DelButton(
-                  onPressed: resetCalculatorState,
-                  backgroundColor: Colors.red,
-                  label: 'AC',
-                ),
-                DelButton(
-                  onPressed: deleteChar,
-                  backgroundColor: Colors.blueGrey,
-                  label: 'DEL',
-                ),
-              ],
-            ),
-            Row(
-              spacing: spacing,
-              children: [
-                NumButton(
-                  onPressed: addValue,
-                  value: '7',
-                  color: scheme.secondary,
-                ),
-                NumButton(
-                  onPressed: addValue,
-                  value: '8',
-                  color: scheme.secondary,
-                ),
-                NumButton(
-                  onPressed: addValue,
-                  value: '9',
-                  color: scheme.secondary,
-                ),
-                OpButton(onPressed: operate, operation: add, label: '+'),
-              ],
-            ),
-            Row(
-              spacing: spacing,
-              children: [
-                NumButton(
-                  onPressed: addValue,
-                  value: '4',
-                  color: scheme.secondary,
-                ),
-                NumButton(
-                  onPressed: addValue,
-                  value: '5',
-                  color: scheme.secondary,
-                ),
-                NumButton(
-                  onPressed: addValue,
-                  value: '6',
-                  color: scheme.secondary,
-                ),
-                OpButton(onPressed: operate, operation: sus, label: '-'),
-              ],
-            ),
-            Row(
-              spacing: spacing,
-              children: [
-                NumButton(
-                  onPressed: addValue,
-                  value: '1',
-                  color: scheme.secondary,
-                ),
-                NumButton(
-                  onPressed: addValue,
-                  value: '2',
-                  color: scheme.secondary,
-                ),
-                NumButton(
-                  onPressed: addValue,
-                  value: '3',
-                  color: scheme.secondary,
-                ),
-                OpButton(onPressed: operate, operation: mult, label: '*'),
-              ],
-            ),
-            Row(
-              spacing: spacing,
-              children: [
-                NumButton(
-                  onPressed: addValue,
-                  value: '.',
-                  color: scheme.secondary,
-                ),
-                NumButton(
-                  onPressed: addValue,
-                  value: '0',
-                  color: scheme.secondary,
-                ),
-                EqualButton(onPressed: resolve, color: scheme.onPrimary),
-                OpButton(onPressed: operate, operation: div, label: '/'),
-              ],
-            ),
-            SizedBox(height: 50),
-          ],
+              Row(
+                spacing: spacing,
+                children: [
+                  DelButton(
+                    onPressed: clearText,
+                    backgroundColor: Colors.redAccent,
+                    label: 'C',
+                  ),
+                  DelButton(
+                    onPressed: resetCalculatorState,
+                    backgroundColor: Colors.red,
+                    label: 'AC',
+                  ),
+                  DelButton(
+                    onPressed: deleteChar,
+                    backgroundColor: Colors.blueGrey,
+                    label: 'DEL',
+                  ),
+                  OpButton(
+                    onPressed: operate,
+                    operation: percentage,
+                    label: '%',
+                    active: false,
+                  ),
+                ],
+              ),
+              Row(
+                spacing: spacing,
+                children: [
+                  NumButton(
+                    onPressed: addValue,
+                    value: '7',
+                    color: scheme.secondary,
+                  ),
+                  NumButton(
+                    onPressed: addValue,
+                    value: '8',
+                    color: scheme.secondary,
+                  ),
+                  NumButton(
+                    onPressed: addValue,
+                    value: '9',
+                    color: scheme.secondary,
+                  ),
+                  OpButton(
+                    onPressed: operate,
+                    operation: add,
+                    label: '+',
+                    active: currentOp == add,
+                  ),
+                ],
+              ),
+              Row(
+                spacing: spacing,
+                children: [
+                  NumButton(
+                    onPressed: addValue,
+                    value: '4',
+                    color: scheme.secondary,
+                  ),
+                  NumButton(
+                    onPressed: addValue,
+                    value: '5',
+                    color: scheme.secondary,
+                  ),
+                  NumButton(
+                    onPressed: addValue,
+                    value: '6',
+                    color: scheme.secondary,
+                  ),
+                  OpButton(
+                    onPressed: operate,
+                    operation: sus,
+                    label: '-',
+                    active: currentOp == sus,
+                  ),
+                ],
+              ),
+              Row(
+                spacing: spacing,
+                children: [
+                  NumButton(
+                    onPressed: addValue,
+                    value: '1',
+                    color: scheme.secondary,
+                  ),
+                  NumButton(
+                    onPressed: addValue,
+                    value: '2',
+                    color: scheme.secondary,
+                  ),
+                  NumButton(
+                    onPressed: addValue,
+                    value: '3',
+                    color: scheme.secondary,
+                  ),
+                  OpButton(
+                    onPressed: operate,
+                    operation: mult,
+                    label: '*',
+                    active: currentOp == mult,
+                  ),
+                ],
+              ),
+              Row(
+                spacing: spacing,
+                children: [
+                  NumButton(
+                    onPressed: addValue,
+                    value: '.',
+                    color: scheme.secondary,
+                  ),
+                  NumButton(
+                    onPressed: addValue,
+                    value: '0',
+                    color: scheme.secondary,
+                  ),
+                  EqualButton(onPressed: resolve, color: scheme.onPrimary),
+                  OpButton(
+                    onPressed: operate,
+                    operation: div,
+                    label: '/',
+                    active: currentOp == div,
+                  ),
+                ],
+              ),
+              SizedBox(height: 50),
+            ],
+          ),
         ),
       ),
     );
