@@ -30,6 +30,7 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
   }
 
   void deleteChar() {
+    if (controller.text.isEmpty) return;
     controller.text = controller.text.substring(0, controller.text.length - 1);
   }
 
