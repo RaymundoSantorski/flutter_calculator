@@ -14,17 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Calculator'),
+      debugShowCheckedModeBanner: false,
+      home: const CalculatorScreen(title: 'Calculator'),
     );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return CalculatorScreen(title: title);
   }
 }
