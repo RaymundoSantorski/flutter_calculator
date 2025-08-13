@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 class EqualButton extends StatelessWidget {
-  const EqualButton({super.key, required this.onPressed});
+  const EqualButton({super.key, required this.onPressed, required this.color});
   final void Function(BuildContext) onPressed;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class EqualButton extends StatelessWidget {
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
+            backgroundColor: WidgetStatePropertyAll(color),
           ),
           onPressed: () => onPressed(context),
           child: Text(

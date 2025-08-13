@@ -30,12 +30,14 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
             primary: Color.fromRGBO(20, 20, 20, 1),
             secondary: Color.fromRGBO(50, 50, 50, 1),
             onPrimary: Color.fromRGBO(250, 250, 250, 1),
-            onSecondary: Color.fromRGBO(230, 230, 230, 1),
+            secondaryContainer: Color.fromRGBO(50, 50, 50, 1),
           )
         : ColorScheme.light().copyWith(
-            primary: Color.fromRGBO(230, 230, 230, 1),
-            secondary: Color.fromRGBO(60, 60, 60, 1),
+            primary: Color.fromRGBO(235, 240, 240, 1),
+            secondary: Color.fromRGBO(150, 150, 180, 1),
+            // onPrimary: Color.fromRGBO(20, 20, 20, 1),
             onSecondary: Color.fromRGBO(20, 20, 20, 1),
+            secondaryContainer: Color.fromRGBO(100, 110, 100, 1),
           );
     return Scaffold(
       backgroundColor: scheme.primary,
@@ -169,7 +171,7 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
                   value: '0',
                   color: scheme.secondary,
                 ),
-                EqualButton(onPressed: resolve),
+                EqualButton(onPressed: resolve, color: scheme.onPrimary),
                 OpButton(onPressed: operate, operation: div, label: '/'),
               ],
             ),
