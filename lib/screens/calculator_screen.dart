@@ -1,5 +1,6 @@
 import 'package:calculator_practice/logic/calculator_logic.dart';
 import 'package:calculator_practice/logic/methods.dart';
+import 'package:calculator_practice/screens/history.dart';
 import 'package:calculator_practice/widgets/del_button.dart';
 import 'package:calculator_practice/widgets/equal_button.dart';
 import 'package:calculator_practice/widgets/num_button.dart';
@@ -32,12 +33,14 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
             onPrimary: Color.fromRGBO(250, 250, 250, 1),
             onSecondary: Color.fromRGBO(255, 250, 255, 1),
             secondaryContainer: Color.fromRGBO(50, 50, 50, 1),
+            tertiary: Color.fromRGBO(200, 200, 200, 0.8),
           )
         : ColorScheme.light().copyWith(
             primary: Color.fromRGBO(235, 240, 240, 1),
             secondary: Color.fromRGBO(150, 150, 180, 1),
             onSecondary: Color.fromRGBO(20, 20, 20, 1),
             secondaryContainer: Color.fromRGBO(100, 110, 100, 1),
+            tertiary: Color.fromRGBO(20, 20, 20, 1),
           );
     return Scaffold(
       backgroundColor: scheme.primary,
@@ -58,6 +61,18 @@ class _CalculatorScreenState extends CalculatorLogicState<CalculatorScreen> {
             activeTrackColor: scheme.primary,
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  HistoryScreen(history: history, scheme: scheme),
+            ),
+          );
+        },
+        backgroundColor: scheme.onPrimary,
+        child: Icon(Icons.history_outlined, color: scheme.secondary, size: 35),
       ),
       body: SafeArea(
         child: Padding(
