@@ -19,6 +19,13 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
     return SnackBar(content: Text(message), backgroundColor: Colors.redAccent);
   }
 
+  String formatText(double value) {
+    if (value % 1 == 0) {
+      return value.toInt().toString();
+    }
+    return '$value';
+  }
+
   void clearText() {
     controller.text = '0';
   }
@@ -63,7 +70,7 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
           double Function(double, double) op = ops.removeLast();
           values.add(op(values.removeLast(), values.removeLast()));
         }
-        controller.text = '${values.removeLast()}';
+        controller.text = formatText(values.removeLast());
         overwrite = true;
       });
     } catch (error) {
@@ -98,7 +105,7 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
           }
         }
         currentOp = op;
-        controller.text = '${values.last}';
+        controller.text = formatText(values.last);
         overwrite = true;
       });
     } catch (error) {
