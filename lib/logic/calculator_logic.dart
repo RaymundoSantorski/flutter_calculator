@@ -9,7 +9,7 @@ class CalculatorLogic extends StatefulWidget {
 }
 
 class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
-  final TextEditingController controller = TextEditingController(text: '');
+  final TextEditingController controller = TextEditingController(text: '0');
   List<double> values = [];
   List<double Function(double, double)> ops = [];
   double Function(double, double)? currentOp;
@@ -32,7 +32,9 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
   }
 
   void validateHistory() {
-    if (currentOp != null && !history.isEmpty && !history.last.contains('=')) {
+    if (currentOp != null &&
+        history.isNotEmpty &&
+        !history.last.contains('=')) {
       setState(() {
         history.removeLast();
       });
@@ -85,13 +87,54 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
         overwrite = true;
       });
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(snackBar(error.toString()));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(snackBar('resolve:${error.toString()}'));
+    }
+  }
+
+  void equal() {
+    for (double Function(double, double) op in ops.reversed) {
+      values.add(op(values.removeLast(), values.removeLast()));
+    }
+  }
+
+  void changeOp(double Function(double, double) op) {
+    String curr = history.removeLast();
+    history.add('${curr.substring(0, curr.length - 1)}${getOperand(op)}');
+    ops.removeLast();
+    currentOp = op;
+    ops.add(op);
+  }
+
+  String getOperand(op) {
+    String operand = op == add
+        ? '+'
+        : op == sus
+        ? '-'
+        : op == mult
+        ? '*'
+        : '/';
+    return operand;
+  }
+
+  void setHistory(double value, double Function(double, double) op) {
+    if (currentOp == null) {
+      history.add('${formatText(value)} ${getOperand(op)}');
+    } else {
+      String curr =
+          '${history.removeLast()} ${formatText(value)} ${getOperand(op)}';
+      history.add(curr);
     }
   }
 
   void operate(double Function(double, double) op, BuildContext context) {
     try {
       setState(() {
+        if (currentOp != null && overwrite) {
+          changeOp(op);
+          return;
+        }
         double? value = double.tryParse(controller.text);
         if (value == null) return;
         if (op == percentage) {
@@ -99,31 +142,23 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
           return;
         }
         values.add(value);
-        String operand = op == add
-            ? '+'
-            : op == sus
-            ? '-'
-            : op == mult
-            ? '*'
-            : '/';
-        if (currentOp == null) {
-          history.add('$value $operand');
-        } else {
-          String curr = '${history.removeLast()} $value $operand';
-          history.add(curr);
-        }
+        setHistory(value, op);
         int currLevel = (op == mult || op == div) ? 2 : 1;
         if (ops.isEmpty) {
           ops.add(op);
         } else {
           int prevLevel = (ops.last == mult || ops.last == div) ? 2 : 1;
           if (prevLevel >= currLevel) {
-            double newValue = ops.removeLast()(
-              values.removeLast(),
-              values.removeLast(),
-            );
+            while (ops.isNotEmpty) {
+              double newValue = ops.removeLast()(
+                values.removeLast(),
+                values.removeLast(),
+              );
+              values.add(newValue);
+            }
             ops.add(op);
-            values.add(newValue);
+            // equal();
+            // ops.add(op);
           } else {
             ops.add(op);
           }
@@ -133,7 +168,9 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
         overwrite = true;
       });
     } catch (error) {
-      ScaffoldMessenger.of(context).showSnackBar(snackBar(error.toString()));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(snackBar('operate:${error.toString()}'));
     }
   }
 
