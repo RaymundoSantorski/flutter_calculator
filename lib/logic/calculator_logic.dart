@@ -20,6 +20,10 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
     return SnackBar(content: Text(message), backgroundColor: Colors.redAccent);
   }
 
+  void showMessage(context, message) {
+    ScaffoldMessenger.of(context).showSnackBar(snackBar(message));
+  }
+
   String formatText(double value) {
     if (value % 1 == 0) {
       return value.toInt().toString();
@@ -78,24 +82,19 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
         if (value == null) return;
         currentOp = null;
         values.add(value);
-        for (int i = (ops.length - 1); i >= 0; i--) {
-          double Function(double, double) op = ops.removeLast();
-          values.add(op(values.removeLast(), values.removeLast()));
-        }
+        equal();
         controller.text = formatText(values.removeLast());
         history.add('${history.removeLast()} $value = ${controller.text}');
         overwrite = true;
       });
     } catch (error) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(snackBar('resolve:${error.toString()}'));
+      showMessage(context, error.toString());
     }
   }
 
   void equal() {
-    for (double Function(double, double) op in ops.reversed) {
-      values.add(op(values.removeLast(), values.removeLast()));
+    while (ops.isNotEmpty) {
+      values.add(ops.removeLast()(values.removeLast(), values.removeLast()));
     }
   }
 
@@ -116,6 +115,16 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
         ? '*'
         : '/';
     return operand;
+  }
+
+  bool doPrevOps(double Function(double, double) op) {
+    try {
+      int currLevel = (op == mult || op == div) ? 2 : 1;
+      int prevLevel = (ops.last == mult || ops.last == div) ? 2 : 1;
+      return prevLevel >= currLevel;
+    } catch (error) {
+      return false;
+    }
   }
 
   void setHistory(double value, double Function(double, double) op) {
@@ -143,34 +152,14 @@ class CalculatorLogicState<T extends CalculatorLogic> extends State<T> {
         }
         values.add(value);
         setHistory(value, op);
-        int currLevel = (op == mult || op == div) ? 2 : 1;
-        if (ops.isEmpty) {
-          ops.add(op);
-        } else {
-          int prevLevel = (ops.last == mult || ops.last == div) ? 2 : 1;
-          if (prevLevel >= currLevel) {
-            while (ops.isNotEmpty) {
-              double newValue = ops.removeLast()(
-                values.removeLast(),
-                values.removeLast(),
-              );
-              values.add(newValue);
-            }
-            ops.add(op);
-            // equal();
-            // ops.add(op);
-          } else {
-            ops.add(op);
-          }
-        }
+        if (doPrevOps(op)) equal();
+        ops.add(op);
         currentOp = op;
         controller.text = formatText(values.last);
         overwrite = true;
       });
     } catch (error) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(snackBar('operate:${error.toString()}'));
+      showMessage(context, error.toString());
     }
   }
 
